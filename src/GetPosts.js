@@ -38,6 +38,7 @@ class GetPosts extends Component {
        <div className="blog-posts">
         <li key={key}>
           {data[key].author}
+          {data[key].body}
         </li>
        </div>
      );
