@@ -6,13 +6,15 @@ import steem from 'steem';
 import dsteem from 'dsteem';
 import { Client } from 'dsteem';
 import GetPosts from './GetPosts';
+import MyPosts from './MyPosts';
+
 
 class App extends Component {
 
   render() {
     return (
       <div className="app-container">
-        <GetPosts />
+        <MyPosts />
       </div>
     );
   }
