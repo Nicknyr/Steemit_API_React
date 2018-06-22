@@ -29,18 +29,13 @@ class User extends Component {
 
   render() {
     const userData = this.state.profile;
-    //console.log(userData);
 
     var name = jsonQuery('accounts[*][name]', { data: userData }).value
-    //console.log(name);
-
     var meta = jsonQuery('accounts[*][json_metadata]', { data: userData }).value
-    //console.log(meta);
 
     return (
       <div>
-        {name} <br/>
-        {meta}
+      
       </div>
     );
   }
