@@ -5,16 +5,16 @@ import axios from 'axios';
 import steem from 'steem';
 import dsteem from 'dsteem';
 import { Client } from 'dsteem';
-import GetPosts from './GetPosts';
 import MyPosts from './MyPosts';
-
+import Utopian from './Utopian';
+import User from './User';
 
 class App extends Component {
 
   render() {
     return (
       <div className="app-container">
-        <MyPosts />
+        <Utopian />
       </div>
     );
   }

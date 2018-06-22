@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import dsteem from 'dsteem';
 import { Client } from 'dsteem';
+import User from './User';
+import jsonQuery from 'json-query';
 
-class GetPosts extends Component {
+class Utopian extends Component {
   constructor(props) {
     super(props);
 
@@ -11,14 +13,16 @@ class GetPosts extends Component {
       hotPostsFunny: [],
       funnyActive: [],
       myPosts: [],
-      getMyState: []
+      getMyState: [],
+      dynamicGlobalProperties: [],
+      utopianCash: []
     }
   }
 
   componentDidMount() {
     const client = new Client('https://api.steemit.com')
 
-    // Gets posts from Utopian-io
+  /*  // Gets posts from Utopian-io
     var query = {
         tag: 'utopian-io', // This tag is used to filter the results by a specific post tag
         limit: 5, // This limit allows us to limit the overall results returned to 5
@@ -56,61 +60,62 @@ class GetPosts extends Component {
         .then(result => {
           this.setState({ funnyActive: result});
         })
+    */
 
-
-    // Gets my account details but not posts
-    var myPosts = {
-
-    }
-
-
-    // Successfully gets my posts via content.[name of post]
-    client.database
-      .getAccounts(['ned'], myPosts)
-      .then(result => {
-        this.setState({ myPosts: result });
-      })
-
-
+      var utopianMoney = {
+        tag: 'utopian-io',
+        limit: 20
+      }
 
       client.database
-        .getState('@ned')
+        .getDiscussions('hot', utopianMoney)
         .then(result => {
-          this.setState({ getMyState: result});
+          this.setState({ utopianCash: result});
         })
+
 
   }
 
 
   render() {
-   //console.log(this.state.userData);
-   //console.log(this.state.hotPostsFunny);
-   //console.log(this.state.funnyActive);
-   //console.log(this.state.myPosts);
-   console.log(this.state.getMyState);
-   const data = this.state.userData;
+   const utopian = Object.keys(this.state.utopianCash);
+   //console.log(utopian);
 
-   const display = Object.keys(data).map((d, key) => {
-     //console.log(data[key]);
+   console.log(this.state.utopianCash);
+
+  /* var author = jsonQuery('[*][author]', { data: this.state.utopianCash }).value
+   console.log(author);
+   {author[i]}
+  */
+
+
+   let display = utopian.map((post, i) => {
      return (
-       <div className="blog-posts">
-        <li key={key}>
-        <h3>Author</h3>  {data[key].author}<br/>
-        <h3>Post</h3>  {data[key].body} <br/>
-        <h3>Active Votes</h3> {data[key].active_votes.length}
-        </li>
+       <div className="utopian-items">
+        <p>
+          <strong>Author: </strong>
+            {this.state.utopianCash[utopian[i]]["author"]}
+        </p>
+        <p>
+          <strong>Title: </strong>
+            {this.state.utopianCash[utopian[i]]["title"]}
+        </p>
+        <p>
+          <strong>Payout: </strong>
+            {this.state.utopianCash[utopian[i]]["total_payout_value"]}
+        </p>
+        <p><a href={`https://www.steemit.com` + this.state.utopianCash[utopian[i]]["url"]}>The Post</a></p>
        </div>
      );
-   })
+   });
 
     return (
-      <div className="App">
-        <ul>
-          {display}
-        </ul>
+      <div className="utopian-container">
+        {display}
+        <User />
       </div>
     );
   }
 }
 
-export default GetPosts;
+export default Utopian;
